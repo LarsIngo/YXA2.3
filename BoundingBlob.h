@@ -9,12 +9,16 @@ class BoundingBlob
 private:
 
 protected:
+	int id;
 	XMFLOAT3 mWorldPosCenter;
 public:
 	BoundingBlob(XMFLOAT3 worldPosCenter);
 	virtual ~BoundingBlob();
 
 	virtual XMFLOAT3 Intersect(BoundingBlob* other) = 0;
+
+	int GetID() { return id; }
+	XMFLOAT3 GetWorldPosCenter() { return mWorldPosCenter; }
 };
 
 BoundingBlob::BoundingBlob(XMFLOAT3 worldPosCenter)
