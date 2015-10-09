@@ -38,6 +38,7 @@ XMFLOAT3 BoundingSphere::Intersect(BoundingBlob* otherBlob)
 		BoundingSphere* other = (BoundingSphere*)otherBlob;
 		if (this->mRadius + other->mRadius < length)
 		{
+			//FROYO
 			return XMFLOAT3(thisToOther.x/length, thisToOther.y/length, thisToOther.z/length);
 		}
 	}
