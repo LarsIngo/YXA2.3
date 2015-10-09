@@ -30,9 +30,9 @@ Game::Game()
 	Camera* batcam = scene->CreateCamera(resolution);
 	batcam->SetWorldPos(XMFLOAT3(0, 0, -1));
 	
-	const int nrX = 5;
-	const int nrY = 5;
-	const int nrZ = 5;
+	const int nrX = 15;
+	const int nrY = 15;
+	const int nrZ = 15;
 	Object* objList[nrX][nrY][nrZ];
 	float space = 1.3f;
 	for (int x = 0; x < nrX; x++)
@@ -108,7 +108,7 @@ Game::Game()
 
 		//RENDER
 		scene->RenderImage(batcam, image);
-		image->GaussianBlurTo(image2);
+		//image->GaussianBlurTo(image2);
 
 		//WAIT
 		while((std::clock() - start) / (double)CLOCKS_PER_SEC < 1.f/60)

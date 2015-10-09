@@ -12,6 +12,7 @@
 #include "WindowHandler.h"
 #include "RenderEngine.h"
 #include "ImageShaders.h"
+#include "PhysicsEngine.h"
 
 #include "Model.h"
 #include "Scene.h"
@@ -34,6 +35,7 @@ private:
 	WindowHandler* mWindowHandler; //Handles the windows
 	RenderEngine* mRenderEngine; //Draws our images
 	ImageShaders* mImageShaders;
+	PhysicsEngine* mPhysicsEngine;
 
 	//A list that contains all our scenes.
 	PointerList<Image> mImageList = PointerList<Image>(1, 1);
@@ -52,6 +54,7 @@ private:
 	void CreateViewport(XMINT2 resolution);
 	void InitialiseRenderEngine();
 	void InitialiseImageShaders();
+	void InitialisePhysicsEngine();
 
 protected:
 
@@ -77,6 +80,7 @@ YXA::YXA(XMINT2 resolution)
 	InitialiseWindow(resolution);
 	InitialiseRenderEngine();
 	InitialiseImageShaders();
+	InitialisePhysicsEngine();
 }
 
 YXA::~YXA()
@@ -84,6 +88,7 @@ YXA::~YXA()
 	delete mWindowHandler;
 	delete mRenderEngine;
 	delete mImageShaders;
+	delete mPhysicsEngine;
 	mDevice->Release();
 	mDeviceContext->Release();
 	mSwapChain->Release();
@@ -232,6 +237,10 @@ void YXA::InitialiseImageShaders()
 	mImageShaders = new ImageShaders(&mDevice, &mDeviceContext);
 }
 
+void YXA::InitialisePhysicsEngine()
+{
+	mPhysicsEngine = new PhysicsEngine();
+}
 
 //PUBLIC FUNCTIONS
 

@@ -1,10 +1,12 @@
 #pragma once
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include <DirectXCollision.h>
+#include "YXAMath.h"
 
 using namespace DirectX;
 
-class BoundingBlob
+class CollisonBlob
 {
 private:
 
@@ -12,21 +14,22 @@ protected:
 	int id;
 	XMFLOAT3 mWorldPosCenter;
 public:
-	BoundingBlob(XMFLOAT3 worldPosCenter);
-	virtual ~BoundingBlob();
+	CollisonBlob(XMFLOAT3 worldPosCenter);
+	virtual ~CollisonBlob();
 
-	virtual XMFLOAT3 Intersect(BoundingBlob* other) = 0;
+	virtual XMFLOAT3 Intersect(CollisonBlob* other) = 0;
 
 	int GetID() { return id; }
 	XMFLOAT3 GetWorldPosCenter() { return mWorldPosCenter; }
 };
 
-BoundingBlob::BoundingBlob(XMFLOAT3 worldPosCenter)
+CollisonBlob::CollisonBlob(XMFLOAT3 worldPosCenter)
 {
+	id = -1;
 	mWorldPosCenter = worldPosCenter;
 }
 
-BoundingBlob::~BoundingBlob()
+CollisonBlob::~CollisonBlob()
 {
 
 }
