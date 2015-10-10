@@ -20,7 +20,10 @@ private:
 	void LoadDefaultOBJMesh();
 	void LoadOBJMeshFromFile(string fileName);
 	void LoadMAYAOBJMeshFromFile(string fileName);
+	void NewLoad(string fileName);
 	void CreateVertexBuffer();
+	XMFLOAT2 LineToF2(string line, int startPos);
+	XMFLOAT3 LineToF3(string line, int startPos);
 protected:
 
 public:
@@ -35,7 +38,8 @@ Mesh::Mesh(ID3D11Device** device, string fileName)
 {
 	mDevice = device;
 
-	LoadMAYAOBJMeshFromFile(fileName);
+	//LoadMAYAOBJMeshFromFile(fileName);
+	NewLoad(fileName);
 	CreateVertexBuffer();
 }
 
@@ -43,6 +47,169 @@ Mesh::~Mesh()
 {
 	mVertexBuffer->Release();
 	delete mVertices;
+}
+
+XMFLOAT2 Mesh::LineToF2(string line, int startPos)
+{
+	int nrF = 0;
+	float fl[2];
+	string nrLine = "";
+	for (unsigned int i = startPos; i < line.length() + 1; i++)
+	{
+		if (line[i] == ' ' || line[i] == '\0')
+		{
+			fl[nrF++] = (float)atof(nrLine.c_str());
+			nrLine = "";
+		}
+		else
+		{
+			nrLine += line[i];
+		}
+	}
+	return XMFLOAT2(fl[0], fl[1]);
+}
+
+XMFLOAT3 Mesh::LineToF3(string line, int startPos)
+{
+	int nrF = 0;
+	float fl[3];
+	string nrLine = "";
+	for (unsigned int i = startPos; i < line.length() + 1; i++)
+	{
+		if (line[i] == ' ' || line[i] == '\0')
+		{
+			fl[nrF++] = (float)atof(nrLine.c_str());
+			nrLine = "";
+		}
+		else
+		{
+			nrLine += line[i];
+		}
+	}
+	return XMFLOAT3(fl[0], fl[1], fl[2]);
+}
+
+void Mesh::NewLoad(string fileName)
+{
+	ifstream file(fileName);
+	if (file.is_open())
+	{
+		vector<XMFLOAT3> v;
+		vector<XMFLOAT2> vt;
+		vector<XMFLOAT3> vn;
+		string line;
+		while (getline(file, line) && line[0] != 'f')
+		{
+			if (line[0] == 'v' && line[1] == ' ')
+			{
+				v.push_back(LineToF3(line, 2));
+			}
+			else if(line[0] == 'v' && line[1] == 't')
+			{
+				vt.push_back(LineToF2(line, 3));
+			}
+			else if (line[0] == 'v' && line[1] == 'n')
+			{
+				vn.push_back(LineToF3(line, 3));
+			}
+		}
+
+		vector<int> in;
+		string nrStr;
+		vector<Vertex> vertices;
+		Vertex vertex;
+		do
+		{
+			if(line[0] == 'f')
+			{
+				nrStr = "";
+				for (unsigned int i = 2; i < line.length() + 1; i++)
+				{
+					if (line[i] == '/' || line[i] == ' ' || line[i] == '\0')
+					{
+						in.push_back(stoi(nrStr) - 1);
+						nrStr = "";
+					}
+					else
+					{
+						nrStr += line[i];
+					}
+				}
+				int size = in.size();
+				if (in.size() == 9)
+				{
+					//Triangle
+					vertex.pos = v.at(in.at(0));
+					vertex.uv = vt.at(in.at(1));
+					vertex.normal = vn.at(in.at(2));
+					vertices.push_back(vertex);
+
+					vertex.pos = v.at(in.at(3));
+					vertex.uv = vt.at(in.at(4));
+					vertex.normal = vn.at(in.at(5));
+					vertices.push_back(vertex);
+
+					//Vertex
+					vertex.pos = v.at(in.at(6));
+					vertex.uv = vt.at(in.at(7));
+					vertex.normal = vn.at(in.at(8));
+					vertices.push_back(vertex);
+				}
+				else
+				{
+					//Quad
+					//Triangle1
+					vertex.pos = v.at(in.at(0));
+					vertex.uv = vt.at(in.at(1));
+					vertex.normal = vn.at(in.at(2));
+					vertices.push_back(vertex);
+
+					vertex.pos = v.at(in.at(3));
+					vertex.uv = vt.at(in.at(4));
+					vertex.normal = vn.at(in.at(5));
+					vertices.push_back(vertex);
+
+					vertex.pos = v.at(in.at(6));
+					vertex.uv = vt.at(in.at(7));
+					vertex.normal = vn.at(in.at(8));
+					vertices.push_back(vertex);
+
+					//Triangle2
+					vertex.pos = v.at(in.at(6));
+					vertex.uv = vt.at(in.at(7));
+					vertex.normal = vn.at(in.at(8));
+					vertices.push_back(vertex);
+
+					vertex.pos = v.at(in.at(9));
+					vertex.uv = vt.at(in.at(10));
+					vertex.normal = vn.at(in.at(11));
+					vertices.push_back(vertex);
+
+					vertex.pos = v.at(in.at(0));
+					vertex.uv = vt.at(in.at(1));
+					vertex.normal = vn.at(in.at(2));
+					vertices.push_back(vertex);
+				}
+				in.clear();
+			}
+		} while (getline(file, line));
+		in.shrink_to_fit();
+		file.close();
+
+		//Copy from vector<Vertex> to mVertices
+		mNrOfVertices = vertices.size();
+		mVertices = new Vertex[mNrOfVertices];
+		for (int i = 0; i < mNrOfVertices; i++)
+		{
+			mVertices[i] = vertices.at(i);
+		}
+		vertices.clear();
+		vertices.shrink_to_fit();
+	}
+	else
+	{
+		LoadDefaultOBJMesh();
+	}
 }
 
 void Mesh::LoadOBJMeshFromFile(string fileName)

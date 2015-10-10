@@ -33,7 +33,7 @@ Camera::Camera(XMINT2 resolution) : Entity()
 	mFrontDirection = XMFLOAT3(0.f, 0.f, 1.f);
 	mResolution = resolution;
 	mNearZ = 0.001f;
-	mFarZ = 20.f;
+	mFarZ = 200.f;
 	mFOV =  3.14f / 180 * 70;
 }
 
