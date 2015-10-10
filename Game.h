@@ -30,7 +30,7 @@ Game::Game()
 	Model* bowlingPlaneModel = yxa->CreateModel("BowlingPlaneMaya.obj", "BowlingPlane.dds");
 
 	Camera* batcam = scene->CreateCamera(resolution);
-	batcam->SetWorldPos(XMFLOAT3(0.f, 0.f, -1.f));
+	batcam->SetWorldPos(XMFLOAT3(0.f, 0.f, -1.5f));
 
 	Object* bowlingPlane = scene->CreateObject(bowlingPlaneModel);
 	bowlingPlane->SetWorldPos(XMFLOAT3(0.f, -0.5f, 0.f));
@@ -40,7 +40,7 @@ Game::Game()
 	const int nrY = 15;
 	const int nrZ = 15;
 	Object* objList[nrX][nrY][nrZ];
-	float space = 2.3f;
+	float space = 2.0f;
 	for (int x = 0; x < nrX; x++)
 	{
 		for (int y = 0; y < nrY; y++)
@@ -83,20 +83,20 @@ Game::Game()
 		}
 		if (GetAsyncKeyState(VK_NUMPAD4))
 		{
-			batcam->Pitch(-1.f / 4.f * (2.f * 3.14f) * (updateRate));
+			batcam->Pitch(-1.f / 4.f * (2.f * pi) * (updateRate));
 		}
 		if (GetAsyncKeyState(VK_NUMPAD6))
 		{
-			batcam->Pitch(1.f / 4.f * (2.f * 3.14f) * (updateRate));
+			batcam->Pitch(1.f / 4.f * (2.f * pi) * (updateRate));
 		}
 
 		if (GetAsyncKeyState(VK_NUMPAD2))
 		{
-			batcam->Yaw(-1.f / 4.f * (2.f * 3.14f) * (updateRate));
+			batcam->Yaw(-1.f / 4.f * (2.f * pi) * (updateRate));
 		}
 		if (GetAsyncKeyState(VK_NUMPAD8))
 		{
-			batcam->Yaw(1.f / 4.f * (2.f * 3.14f) * (updateRate));
+			batcam->Yaw(1.f / 4.f * (2.f * pi) * (updateRate));
 		}
 
 		//UPDATE ROTATION
@@ -106,8 +106,9 @@ Game::Game()
 			{
 				for (int z = 0; z < nrZ; z++)
 				{
-					objList[x][y][z]->Roll(1.f / 4.f * (2.f * 3.14f) * (updateRate));
-					objList[x][y][z]->Yaw(1.f / 4.f * (2.f * 3.14f) * (updateRate));
+					objList[x][y][z]->Roll(1.f / 4.f * (2.f * pi) * (updateRate));
+					objList[x][y][z]->Yaw(1.f / 4.f * (2.f * pi) * (updateRate));
+					objList[x][y][z]->SetScale(XMFLOAT3(0.5f, 0.5f, 0.5f));
 				}
 			}
 		}

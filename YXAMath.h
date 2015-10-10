@@ -14,6 +14,8 @@ XMFLOAT3 Mul(XMFLOAT3 vec1, XMFLOAT3 vec2);
 XMFLOAT3 Mul(float f, XMFLOAT3 vec);
 XMFLOAT3 Div(XMFLOAT3 vec1, XMFLOAT3 vec2);
 
+float pi = 3.14159265359;
+
 XMFLOAT3 Normalize(XMFLOAT3 vec)
 {
 	float length = Length(vec);

@@ -6,6 +6,7 @@
 #include "DPointerList.h"
 
 #include "Vertex.h"
+#include "YXAMath.h"
 
 #include "DDSTextureLoader.h"
 
