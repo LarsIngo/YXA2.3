@@ -214,6 +214,7 @@ void Entity::Pitch(float rot)
 void Entity::Roll(float rot)
 {
 	//SetRotation(GetRotationVec() + XMVector4Transform(XMVectorSet(0.f, 0.f, rot, 0.f), GetRotationMat()));
+	mRotation.z += rot;
 	if (GetRotation().z > 6.28f)
 	{
 		SetRotation(XMFLOAT3(GetRotation().x, GetRotation().y, GetRotation().z - 6.28f));

@@ -1,5 +1,6 @@
 #pragma once
 #include "YXA.h"
+#include "YXAMath.h"
 
 #include <stdio.h>
 #include <cstdio>
@@ -35,6 +36,16 @@ Game::Game()
 	Object* bowlingPlane = scene->CreateObject(bowlingPlaneModel);
 	bowlingPlane->SetWorldPos(XMFLOAT3(0.f, -0.5f, 0.f));
 	bowlingPlane->SetScale(XMFLOAT3(0.2f, 0.2f, 0.2f));
+
+	Object* leftSide = scene->CreateObject(bowlingPlaneModel);
+	leftSide->SetWorldPos(XMFLOAT3(2.7f, 0.2f, 0.f));
+	leftSide->SetScale(XMFLOAT3(0.05f, 0.2f, 0.2f));
+	leftSide->Roll(pi / 2);
+
+	Object* rightSide = scene->CreateObject(bowlingPlaneModel);
+	rightSide->SetWorldPos(XMFLOAT3(-2.7f, 0.2f, 0.f));
+	rightSide->SetScale(XMFLOAT3(0.05f, 0.2f, 0.2f));
+	rightSide->Roll(-pi / 2);
 	
 	const int nrX = 15;
 	const int nrY = 15;
