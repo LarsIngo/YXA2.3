@@ -1,6 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
 #include "CollisonBlob.h"
+#include "YXAMath.h"
 using namespace DirectX;
 
 class Entity

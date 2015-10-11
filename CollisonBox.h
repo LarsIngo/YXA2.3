@@ -25,7 +25,7 @@ CollisonBox::CollisonBox(XMFLOAT3 worldPosCenter, XMFLOAT3 radius) : CollisonBlo
 
 CollisonBox::~CollisonBox()
 {
-	
+
 }
 
 XMFLOAT3 CollisonBox::Intersect(CollisonBlob* otherBlob)

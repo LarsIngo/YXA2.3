@@ -49,6 +49,7 @@ Game::Game()
 			{
 				objList[x][y][z] = scene->CreateObject(batModel);
 				objList[x][y][z]->SetWorldPos(XMFLOAT3((x - nrX/2) * space, (y - nrY/ 2) * space, (z - nrZ / 2) * space));
+				objList[x][y][z]->SetScale(XMFLOAT3(0.5f, 0.5f, 0.5f));
 			}
 		}
 	}
@@ -56,7 +57,8 @@ Game::Game()
 	while (yxa->Running())
 	{
 		clock_t start = std::clock();
-		//UPDATE
+		
+		//UPDATE CAMERA
 		if (GetAsyncKeyState(_In_ 'W'))
 		{
 			batcam->MoveFront(1.f * updateRate);
@@ -106,9 +108,23 @@ Game::Game()
 			{
 				for (int z = 0; z < nrZ; z++)
 				{
-					objList[x][y][z]->Roll(1.f / 4.f * (2.f * pi) * (updateRate));
-					objList[x][y][z]->Yaw(1.f / 4.f * (2.f * pi) * (updateRate));
-					objList[x][y][z]->SetScale(XMFLOAT3(0.5f, 0.5f, 0.5f));
+					if (GetAsyncKeyState(VK_LEFT))
+					{
+						objList[x][y][z]->Pitch(-1.f / 4.f * (2.f * pi) * (updateRate));
+					}
+					if (GetAsyncKeyState(VK_RIGHT))
+					{
+						objList[x][y][z]->Pitch(1.f / 4.f * (2.f * pi) * (updateRate));
+					}
+					if (GetAsyncKeyState(VK_UP))
+					{
+						objList[x][y][z]->Yaw(1.f / 4.f * (2.f * pi) * (updateRate));
+					}
+					if (GetAsyncKeyState(VK_DOWN))
+					{
+						objList[x][y][z]->Yaw(-1.f / 4.f * (2.f * pi) * (updateRate));
+					}
+					//objList[x][y][z]->Yaw(1.f / 4.f * (2.f * pi) * (updateRate));
 				}
 			}
 		}
