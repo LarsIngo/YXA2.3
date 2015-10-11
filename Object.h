@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Model.h"
+#include "PhysicsBlob.h"
 
 class Object : public Entity
 {
@@ -8,6 +9,7 @@ private:
 
 protected:
 	Model* mModel;
+	PhysicsBlob* mPhysicsBlob;
 public:
 	Object(Model* model);
 	~Object();

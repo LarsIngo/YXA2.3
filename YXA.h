@@ -252,7 +252,7 @@ Image* YXA::CreateImage(XMINT2 resolution)
 
 Scene* YXA::CreateScene()
 {
-	return mSceneList.Add(new Scene(&mRenderEngine));
+	return mSceneList.Add(new Scene(&mRenderEngine, &mPhysicsEngine));
 }
 
 Model* YXA::CreateModel(string mesh, string material)

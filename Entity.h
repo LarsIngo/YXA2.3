@@ -1,5 +1,6 @@
 #pragma once
 #include <DirectXMath.h>
+#include "CollisonBlob.h"
 using namespace DirectX;
 
 class Entity
@@ -12,6 +13,8 @@ protected:
 	XMFLOAT3 mScale;
 	XMFLOAT3 mFrontDirection;
 	XMFLOAT3 mUpDirection;
+
+	CollisonBlob* mCollisonBlob;
 
 	XMMATRIX GetRotationMat(){ return XMMatrixRotationRollPitchYawFromVector(GetRotationVec()); }
 public:

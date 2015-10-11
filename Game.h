@@ -113,6 +113,9 @@ Game::Game()
 			}
 		}
 
+		//UPDATE PHYSICS
+		scene->UpdatePhysics(updateRate);
+
 		//RENDER
 		scene->RenderImage(batcam, image);
 		//image->GaussianBlurTo(image2);
