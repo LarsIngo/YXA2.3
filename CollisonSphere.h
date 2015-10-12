@@ -5,38 +5,40 @@ class CollisonSphere : public CollisonBlob
 {
 private:
 	float mRadius;
+	BoundingSphere* mBoundingSphere;
 protected:
 
 public:
 	CollisonSphere(XMFLOAT3 worldPosCenter, float radius);
 	~CollisonSphere();
 
-	XMFLOAT3 Intersect(CollisonBlob* other);
+	//bool Intersect(CollisonBlob* otherCollisonBlob);
 
-	float GetRadius() { return mRadius; }
+	BoundingSphere* GetBoundingSphere() { return mBoundingSphere; }
 };
 
 CollisonSphere::CollisonSphere(XMFLOAT3 worldPosCenter, float radius) : CollisonBlob(worldPosCenter)
 {
-	id = 0;
+	id = 1;
 	mRadius = radius;
+	mBoundingSphere = new BoundingSphere(mWorldPosCenter, radius);
 }
 
 CollisonSphere::~CollisonSphere()
 {
-
+	delete mBoundingSphere;
 }
-
-XMFLOAT3 CollisonSphere::Intersect(CollisonBlob* otherBlob)
-{
-	//XMFLOAT3 thisToOther = Sub(otherBlob->GetWorldPosCenter(), GetWorldPosCenter());
-	//if (otherBlob->GetID() == 0)
-	//{
-	//	CollisonSphere* other = (CollisonSphere*)otherBlob;
-	//	if (this->mRadius + other->mRadius < Length(thisToOther))
-	//	{
-	//		return Normalize(thisToOther);
-	//	}
-	//}
-	return XMFLOAT3(0.f, 0.f, 0.f);
-}
+//
+//bool CollisonSphere::Intersect(CollisonBlob* otherCollisonBlob)
+//{
+//	if (otherCollisonBlob->GetID() == 0)
+//	{
+//		CollisonBox* otherCollisonBox = (CollisonBox*)otherCollisonBlob;
+//		return mBoundingSphere->Intersects(*otherCollisonBox->GetBoundingBox());
+//	}
+//	else if (otherCollisonBlob->GetID() == 1)
+//	{
+//		CollisonSphere* otherCollisonSphere = (CollisonSphere*)otherCollisonBlob;
+//		return mBoundingSphere->Intersects(*otherCollisonSphere->GetBoundingSphere());
+//	}
+//}

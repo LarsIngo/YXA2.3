@@ -1,6 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
 #include "CollisonBlob.h"
+#include "CollisonBox.h"
+#include "CollisonSphere.h"
 #include "YXAMath.h"
 using namespace DirectX;
 
@@ -76,6 +78,26 @@ public:
 	void SetScale(XMVECTOR scale) { XMStoreFloat3(&mScale, scale); }
 	void SetFrontDirection(XMVECTOR frontDirection) { XMStoreFloat3(&mFrontDirection, frontDirection); }
 	void SetUpDirection(XMVECTOR upDirection) { XMStoreFloat3(&mUpDirection, upDirection); }
+
+	void SetCollisonBox(XMFLOAT3 centerWorldPos, XMFLOAT3 extends)
+	{
+		if(mCollisonBlob != nullptr)
+		{
+			delete mCollisonBlob;
+		}
+		mCollisonBlob = new CollisonBox(centerWorldPos, extends);
+	}
+
+	void SetCollisonSphere(XMFLOAT3 centerWorldPos, float radius)
+	{
+		if (mCollisonBlob != nullptr)
+		{
+			delete mCollisonBlob;
+		}
+		mCollisonBlob = new CollisonSphere(centerWorldPos, radius);
+	}
+
+	CollisonBlob* GetCollisonBlob() { return mCollisonBlob; }
 };
 
 Entity::Entity()
@@ -85,11 +107,16 @@ Entity::Entity()
 	mScale = XMFLOAT3(1.f, 1.f, 1.f);
 	mFrontDirection = XMFLOAT3(0.f, 0.f, -1.f);
 	mUpDirection = XMFLOAT3(0.f, 1.f, 0.f);
+
+	mCollisonBlob = nullptr;
 }
 
 Entity::~Entity()
 {
-
+	if(mCollisonBlob != nullptr)
+	{
+		delete mCollisonBlob;
+	}
 }
 
 void Entity::Translate(XMFLOAT3 worldPos)

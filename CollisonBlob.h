@@ -17,7 +17,7 @@ public:
 	CollisonBlob(XMFLOAT3 worldPosCenter);
 	virtual ~CollisonBlob();
 
-	virtual XMFLOAT3 Intersect(CollisonBlob* other) = 0;
+	//virtual bool Intersect(CollisonBlob* otherCollisonBlob) = 0;
 
 	int GetID() { return id; }
 	XMFLOAT3 GetWorldPosCenter() { return mWorldPosCenter; }

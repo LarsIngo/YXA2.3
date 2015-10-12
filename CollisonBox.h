@@ -4,7 +4,7 @@
 class CollisonBox : public CollisonBlob
 {
 private:
-	XMFLOAT3 mRadius;
+	XMFLOAT3 mExtends;
 	BoundingBox* mBoundingBox;
 protected:
 
@@ -12,35 +12,33 @@ public:
 	CollisonBox(XMFLOAT3 worldPosCenter, XMFLOAT3 radius);
 	~CollisonBox();
 
-	XMFLOAT3 Intersect(CollisonBlob* other);
+	//bool Intersect(CollisonBlob* otherCollisonBlob);
 
-	XMFLOAT3 GetRadius() { return mRadius; }
+	BoundingBox* GetBoundingBox() { return mBoundingBox; }
 };
 
-CollisonBox::CollisonBox(XMFLOAT3 worldPosCenter, XMFLOAT3 radius) : CollisonBlob(worldPosCenter)
+CollisonBox::CollisonBox(XMFLOAT3 worldPosCenter, XMFLOAT3 extends) : CollisonBlob(worldPosCenter)
 {
-	id = 1;
-	mRadius = radius;
+	id = 0;
+	mExtends = extends;
+	mBoundingBox = new BoundingBox(worldPosCenter, extends);
 }
 
 CollisonBox::~CollisonBox()
 {
-
+	delete mBoundingBox;
 }
 
-XMFLOAT3 CollisonBox::Intersect(CollisonBlob* otherBlob)
-{
-	//XMFLOAT3 thisToOther = Sub(otherBlob->GetWorldPosCenter(), GetWorldPosCenter());
-	//if (otherBlob->GetID() == 0)
-	//{
-	//	CollisonBox* other = (CollisonBox*)otherBlob;
-	//	XMFLOAT3 otherRadius = other->GetRadius();
-	//	if ((mRadius.x + otherRadius.x < Length(Project(thisToOther, XMFLOAT3(1.f, 0.f, 0.f))))  //TDOD ROTATE 
-	//		&& (mRadius.y + otherRadius.y < Length(Project(thisToOther, XMFLOAT3(0.f, 1.f, 0.f))))
-	//		&& (mRadius.z + otherRadius.z < Length(Project(thisToOther, XMFLOAT3(0.f, 0.f, 1.f)))))
-	//	{
-	//		return Normalize(thisToOther);
-	//	}
-	//}
-	return XMFLOAT3(0.f, 0.f, 0.f);
-}
+//bool CollisonBox::Intersect(CollisonBlob* otherCollisonBlob)
+//{
+//	if (otherCollisonBlob->GetID() == 0)
+//	{
+//		CollisonBox* otherCollisonBox = (CollisonBox*)otherCollisonBlob;
+//		return mBoundingBox->Intersects(*otherCollisonBox->GetBoundingBox());
+//	}
+//	else if (otherCollisonBlob->GetID() == 1)
+//	{
+//		CollisonSphere* otherCollisonSphere = (CollisonSphere*)otherCollisonBlob;
+//		return mBoundingBox->Intersects(*otherCollisonSphere->GetBoundingSphere());
+//	}
+//}
