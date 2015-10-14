@@ -125,6 +125,8 @@ Game::Game()
 		if (GetAsyncKeyState(VK_UP))
 		{
 			bowlingBall->SetWorldPos(XMFLOAT3(0,15,2));
+			PhysicsBlob* pb = bowlingBall->GetPhysicsBlob();
+			bowlingBall->GetPhysicsBlob()->SetVelocity(XMFLOAT3(0,15,0));
 		}
 
 		////UPDATE ROTATION

@@ -11,7 +11,10 @@ protected:
 
 public:
 	PhysicsBlob(XMFLOAT3 gravity, XMFLOAT3 velocity, XMFLOAT3 angularVelocity, float frictionCoefficent);
+	PhysicsBlob(PhysicsBlob& other);
 	~PhysicsBlob();
+
+	PhysicsBlob& operator=(PhysicsBlob& other);
 
 	float GetFrictionCoefficent() { return mFrictionCoefficent; }
 
@@ -41,7 +44,27 @@ PhysicsBlob::PhysicsBlob(XMFLOAT3 gravity, XMFLOAT3 velocity, XMFLOAT3 angularVe
 	mFrictionCoefficent = frictionCoefficent;
 }
 
+PhysicsBlob::PhysicsBlob(PhysicsBlob& other)
+{
+	mGravity = other.GetGravity();
+	mVelocity = other.GetVelocity();
+	mAngularVelocity = other.GetAngularVelocity();
+	mFrictionCoefficent = other.GetFrictionCoefficent();
+}
+
 PhysicsBlob::~PhysicsBlob()
 {
 
+}
+
+PhysicsBlob& PhysicsBlob::operator=(PhysicsBlob& other)
+{
+	if(this != &other)
+	{
+		mGravity = other.GetGravity();
+		mVelocity = other.GetVelocity();
+		mAngularVelocity = other.GetAngularVelocity();
+		mFrictionCoefficent = other.GetFrictionCoefficent();
+	}
+	return *this;
 }

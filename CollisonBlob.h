@@ -11,25 +11,43 @@ class CollisonBlob
 private:
 
 protected:
-	int id;
+	int mId;
 	XMFLOAT3 mWorldPosCenter;
 public:
 	CollisonBlob(XMFLOAT3 worldPosCenter);
 	virtual ~CollisonBlob();
+	CollisonBlob(CollisonBlob& other);
+	CollisonBlob& operator=(CollisonBlob& other);
 
 	//virtual bool Intersect(CollisonBlob* otherCollisonBlob) = 0;
 
-	int GetID() { return id; }
+	int GetID() { return mId; }
 	XMFLOAT3 GetWorldPosCenter() { return mWorldPosCenter; }
 };
 
 CollisonBlob::CollisonBlob(XMFLOAT3 worldPosCenter)
 {
-	id = -1;
+	mId = -1;
 	mWorldPosCenter = worldPosCenter;
 }
 
 CollisonBlob::~CollisonBlob()
 {
 
+}
+
+CollisonBlob::CollisonBlob(CollisonBlob& other)
+{
+	mId = other.GetID();
+	mWorldPosCenter = other.GetWorldPosCenter();
+}
+
+CollisonBlob& CollisonBlob::operator=(CollisonBlob& other)
+{
+	if(this != &other)
+	{
+		mId = other.GetID();
+		mWorldPosCenter = other.GetWorldPosCenter();
+	}
+	return *this;
 }

@@ -14,13 +14,14 @@ private:
 public:
 	PointerList();
 	PointerList(int cap, int inc);
+	//PointerList(PointerList& other)
 	~PointerList();
 
 	T* Add(T* pData);
 	T* operator[](const int pos);
 	void Clear();
 	int Size();
-	T** ArrayAdress();
+	T* ReplaceAt(const int pos, T* pData);
 };
 
 template<typename T>
@@ -40,6 +41,11 @@ PointerList<T>::PointerList(int cap, int inc)
 	mNrOfElement = 0;
 	mpList = new T*[cap];
 }
+
+//PointerList(PointerList& other)
+//{
+//
+//}
 
 template<typename T>
 PointerList<T>::~PointerList()
@@ -97,7 +103,13 @@ int PointerList<T>::Size()
 }
 
 template<typename T>
-T** PointerList<T>::ArrayAdress()
+T* PointerList<T>::ReplaceAt(const int pos, T* pData)
 {
-	return mpList;
+	if (pos >= 0 && pos < mNrOfElement)
+	{
+		//T* b = mpList[pos];
+		delete mpList[pos];
+		return mpList[pos] = new T(*pData);
+	}
+	return nullptr;
 }

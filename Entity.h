@@ -23,6 +23,8 @@ protected:
 public:
 	Entity();
 	virtual ~Entity();
+	Entity(Entity& other);
+	Entity& operator=(Entity& other);
 
 	void Translate(XMFLOAT3 worldPos);
 	void Rotate(XMFLOAT3 rotation);
@@ -117,6 +119,60 @@ Entity::~Entity()
 	{
 		delete mCollisonBlob;
 	}
+}
+
+Entity::Entity(Entity& other)
+{
+	mWorldPos = other.GetWorldPos();
+	mRotation = other.GetRotation();
+	mScale = other.GetScale();
+	mFrontDirection = other.GetFrontDirection();
+	mUpDirection = other.GetUpDirection();
+
+	if (other.mCollisonBlob != nullptr)
+	{
+		if(other.mCollisonBlob->GetID() == 0)
+		{
+			CollisonBox* collisonBox = (CollisonBox*)other.mCollisonBlob;
+			mCollisonBlob = new CollisonBox(*collisonBox);
+		}
+		else if (other.mCollisonBlob->GetID() == 1)
+		{
+			CollisonSphere* collisonSphere = (CollisonSphere*)other.mCollisonBlob;
+			mCollisonBlob = new CollisonSphere(*collisonSphere);
+		}
+		//mCollisonBlob = new CollisonBlob(*other.mCollisonBlob);
+	}
+	else
+	{
+		mCollisonBlob = nullptr;
+	}
+}
+
+Entity& Entity::operator=(Entity& other)
+{
+	if(this != &other)
+	{
+		mWorldPos = other.GetWorldPos();
+		mRotation = other.GetRotation();
+		mScale = other.GetScale();
+		mFrontDirection = other.GetFrontDirection();
+		mUpDirection = other.GetUpDirection();
+
+		if (mCollisonBlob != nullptr)
+		{
+			delete mCollisonBlob;
+		}
+		if (other.mCollisonBlob != nullptr)
+		{
+			mCollisonBlob = new CollisonBlob(*other.mCollisonBlob);
+		}
+		else
+		{
+			mCollisonBlob = nullptr;
+		}
+	}
+	return *this;
 }
 
 void Entity::Translate(XMFLOAT3 worldPos)

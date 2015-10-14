@@ -19,7 +19,7 @@ public:
 
 CollisonSphere::CollisonSphere(XMFLOAT3 worldPosCenter, float radius) : CollisonBlob(worldPosCenter)
 {
-	id = 1;
+	mId = 1;
 	mRadius = radius;
 	mBoundingSphere = new BoundingSphere(mWorldPosCenter, radius);
 }
